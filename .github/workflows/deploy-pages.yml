@@ -1,0 +1,44 @@
+name: Deploy Site to GitHub Pages
+
+on:
+  push:
+    branches: [ main ]
+  # 上游词库同步工作流结束后自动重新部署
+  workflow_run:
+    workflows: [ "Sync Upstream Word Library" ]
+    types: [ completed ]
+  workflow_dispatch:
+
+permissions:
+  contents: read
+  pages: write
+  id-token: write
+
+# 避免并发部署互相覆盖
+concurrency:
+  group: pages
+  cancel-in-progress: false
+
+jobs:
+  deploy:
+    # 由 sync 触发时，仅在上游有更新（success 且有提交）时才部署
+    if: github.event_name != 'workflow_run' || github.event.workflow_run.conclusion == 'success'
+    runs-on: ubuntu-latest
+    environment:
+      name: github-pages
+      url: ${{ steps.deployment.outputs.page_url }}
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Setup Pages
+        uses: actions/configure-pages@v4
+
+      - name: Upload artifact
+        uses: actions/upload-pages-artifact@v3
+        with:
+          path: '.'
+
+      - name: Deploy to GitHub Pages
+        id: deployment
+        uses: actions/deploy-pages@v4

@@ -1,0 +1,49 @@
+name: Sync Upstream Word Library
+
+# 上游 maboloshi/github-chinese 每周五更新词库，这里错开到每周二早上同步
+on:
+  schedule:
+    - cron: '23 4 * * 2'
+  workflow_dispatch:
+
+permissions:
+  contents: write
+
+jobs:
+  sync:
+    runs-on: ubuntu-latest
+    steps:
+      - name: Checkout
+        uses: actions/checkout@v4
+
+      - name: Download latest word library from upstream
+        run: |
+          set -euo pipefail
+          BASE="https://raw.githubusercontent.com/maboloshi/github-chinese/gh-pages"
+          curl -fsSL "$BASE/locals.js"          -o "locals.js"
+          curl -fsSL "$BASE/locals_zh-TW.js"    -o "locals_zh-TW.js"
+          curl -fsSL "$BASE/locals%28greasyfork%29.js" -o "locals(greasyfork).js"
+          ls -l locals.js locals_zh-TW.js "locals(greasyfork).js"
+
+      - name: Refresh cache-buster version stamp
+        run: |
+          set -euo pipefail
+          STAMP="$(date -u +%Y-%m-%d)"
+          sed -i -E "s|(locals\.js\?v=)[0-9-]+|\1${STAMP}|g"          "main(nju.edu).user.js"
+          sed -i -E "s|(locals\.js\?v)[0-9.-]+|\1${STAMP}|g"          "main.user.js"
+          sed -i -E "s|(locals_zh-TW\.js\?v)[0-9.-]+|\1${STAMP}|g"    "main_zh-TW.user.js"
+          sed -i -E "s|(locals%28greasyfork%29\.js\?v)[0-9.-]+|\1${STAMP}|g" "main(greasyfork).user.js"
+          grep -h "@require" main.user.js main_zh-TW.user.js "main(nju.edu).user.js" "main(greasyfork).user.js"
+
+      - name: Commit if changed
+        run: |
+          set -euo pipefail
+          git config user.name  "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          git add -A
+          if git diff --cached --quiet; then
+            echo "词库无更新，跳过提交"
+          else
+            git commit -m "chore: 同步上游词库 $(date -u +%Y-%m-%d)"
+            git push
+          fi
