@@ -1,0 +1,193 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GitHub 中文化 (VS Code 扩展)</title>
+<meta name="description" content="GitHub 界面中文化插件 - maboloshi/github-chinese 自托管镜像">
+<link rel="icon" href="https://github.githubassets.com/pinned-octocat.svg">
+<style>
+:root {
+  --fg: #1f2328; --bg: #ffffff; --muted: #59636e; --border: #d1d9e0;
+  --accent: #0969da; --code-bg: #f6f8fa; --quote-bg: #f6f8fa;
+  --note: #0969da; --warn: #9a6700; --tip: #1a7f37;
+  --note-bg: #ddf4ff; --warn-bg: #fff8c5; --tip-bg: #dafbe1;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #e6edf3; --bg: #0d1117; --muted: #9198a1; --border: #3d444d;
+    --accent: #4493f8; --code-bg: #151b23; --quote-bg: #151b23;
+    --note: #4493f8; --warn: #d29922; --tip: #3fb950;
+    --note-bg: #12283b; --warn-bg: #2e2400; --tip-bg: #0f2f1d;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0 auto; padding: 32px 20px 64px; max-width: 1012px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+               "PingFang SC", "Microsoft YaHei", Helvetica, Arial, sans-serif;
+  font-size: 16px; line-height: 1.6; color: var(--fg); background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { font-weight: 600; line-height: 1.25; margin: 24px 0 16px; }
+h1 { font-size: 2em; padding-bottom: .3em; border-bottom: 1px solid var(--border); }
+h2 { font-size: 1.5em; padding-bottom: .3em; border-bottom: 1px solid var(--border); }
+h3 { font-size: 1.25em; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; vertical-align: middle; }
+code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 85%; background: var(--code-bg); padding: .2em .4em;
+  border-radius: 6px;
+}
+pre {
+  background: var(--code-bg); padding: 16px; overflow: auto;
+  border-radius: 6px; line-height: 1.45;
+}
+pre code { background: none; padding: 0; font-size: 100%; }
+blockquote {
+  margin: 0 0 16px; padding: 0 1em; color: var(--muted);
+  border-left: .25em solid var(--border);
+}
+table { border-collapse: collapse; display: block; width: max-content;
+        max-width: 100%; overflow: auto; margin: 0 0 16px; }
+th, td { border: 1px solid var(--border); padding: 6px 13px; }
+th { background: var(--code-bg); font-weight: 600; }
+tr:nth-child(2n) { background: var(--quote-bg); }
+hr { height: 1px; border: 0; background: var(--border); margin: 24px 0; }
+details { margin: 12px 0; padding: 8px 12px; border: 1px solid var(--border);
+          border-radius: 6px; }
+summary { cursor: pointer; font-weight: 600; }
+kbd { font-family: ui-monospace, monospace; font-size: 85%;
+      background: var(--code-bg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 2px 6px; }
+
+/* GitHub 风格提示框: > [!note] / [!warning] / [!tip] / [!important] */
+blockquote.alert { border-left: .25em solid var(--note); padding: 8px 16px;
+                   margin: 16px 0; border-radius: 6px;
+                   background: var(--note-bg); color: var(--fg); }
+blockquote.alert > p { margin: 4px 0; }
+blockquote.alert-warning { border-left-color: var(--warn); background: var(--warn-bg); }
+blockquote.alert-tip      { border-left-color: var(--tip);  background: var(--tip-bg); }
+blockquote.alert-important{ border-left-color: #8250df; background: var(--note-bg); }
+
+.footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border);
+          font-size: 85%; color: var(--muted); }
+</style>
+</head>
+<body>
+<main class="markdown-body">
+<h1 id="github-中文化-vs-code-扩展">GitHub 中文化 (VS Code 扩展)</h1>
+<p><a href="https://opensource.org/licenses/GPL-3.0"><img alt="license GPL-3.0" src="https://img.shields.io/github/license/maboloshi/github-chinese?style=flat-square&amp;label=License" /></a></p>
+<p>一键安装 GitHub 扩展，实现 VS Code 集成浏览器中 GitHub 网页的中文化。</p>
+<h2 id="工作原理">工作原理</h2>
+<ul>
+<li>扩展启用 VS Code 的 proposed <code>browser</code> API（<code>vscode.window.browserTabs</code> + <code>startCDPSession()</code>）</li>
+<li>在扩展宿主侧从 <a href="https://mirror.nju.edu.cn/github-chinese/">南大镜像</a> 拉取词库 <code>locals.js</code> 与主脚本 <code>main.user.js</code>，规避页面 CORS 限制</li>
+<li>通过 CDP <code>Page.addScriptToEvaluateOnNewDocument</code> 直接注入源码（非 eval），绕过 github.com 的 CSP 限制（IBE 因使用 <code>new Function</code> 被 CSP 拦截）</li>
+<li>注入内容内置 GM_* 兼容层与 document-end 语义（等 <code>DOMContentLoaded</code> 后执行）</li>
+</ul>
+<h2 id="先决条件">先决条件</h2>
+<h3 id="添加启动参数">添加启动参数</h3>
+<p>VS Code 必须带 <code>--enable-proposed-api maboloshi.github-chinese</code> 参数启动，否则无法使用 browser API。</p>
+<details>
+<summary>带参数启动 VS Code 的方式</summary>
+
+- 打开[运行对话框](https://learn.microsoft.com/windows/advanced-settings/modern-run)，输入：
+
+  ```cmd
+  "%LOCALAPPDATA%\Programs\Microsoft VS Code\Code.exe" --enable-proposed-api maboloshi.github-chinese
+  ```
+
+- 或修改[“开始”菜单](https://www.microsoft.com/zh-cn/windows/tips/start-menu)的 VS Code 快捷方式，在 `目标` 字段末尾追加 [COMMAND_LINE_ARGUMENTS](https://learn.microsoft.com/openspecs/windows_protocols/ms-shllink/17b69472-0f34-4bcf-b290-eccdb8de224b)：
+
+  ```cmd
+   --enable-proposed-api maboloshi.github-chinese
+  ```
+
+  然后从“开始”菜单启动
+
+</details>
+
+<h2 id="安装方式">安装方式</h2>
+<h3 id="方案一从-github-actions-下载推荐">方案一：从 GitHub Actions 下载（推荐）</h3>
+<blockquote>
+<p>该方案需要登录 GitHub 账号，若你没有账号，请使用 <a href="#方案二从源码构建">方案二</a></p>
+</blockquote>
+<ol>
+<li>
+<p>打开本仓库的 <a href="https://github.com/maboloshi/github-chinese/actions/workflows/build-vscode-extension.yml">Actions</a> 页面</p>
+</li>
+<li>
+<p>选择最近一次成功运行的 workflow</p>
+</li>
+<li>
+<p>滚动到页面底部，在 <strong>Artifacts</strong> 区域下载 <code>github-chinese-extension.vsix</code></p>
+</li>
+<li>
+<p>在 VS Code 中按 <code>Ctrl+Shift+P</code> 打开命令面板</p>
+</li>
+<li>
+<p>输入 <code>Extensions: Install from VSIX...</code> 并选择刚才下载的 <code>.vsix</code> 文件</p>
+</li>
+<li>
+<p>安装完成后，在 VS Code 集成浏览器中刷新 GitHub 页面即可生效</p>
+</li>
+</ol>
+<h3 id="方案二从源码构建">方案二：从源码构建</h3>
+<h4 id="环境要求">环境要求</h4>
+<ul>
+<li>
+<p><a href="https://git-scm.cn/install">Git</a> （可选，用于克隆仓库，若不打算安装 Git ，请自行将仓库下载至本地）</p>
+</li>
+<li>
+<p><a href="https://nodejs.org">NodeJS</a></p>
+</li>
+</ul>
+<h4 id="构建步骤">构建步骤</h4>
+<p>在 PowerShell 中执行以下代码：</p>
+<pre><code class="language-shell">git clone https://github.com/maboloshi/github-chinese.git # 克隆仓库
+
+# 若你的网络环境无法访问 GitHub 克隆仓库，请自行寻找加速器等解决
+
+cd github-chinese/vscode-extension # 进入插件目录
+
+npm install # 安装依赖
+
+# 若你的网络环境缓慢，请使用这行命令：
+
+# npm install --registry=https://registry.npmmirror.com
+
+npx @vscode/vsce package # 打包插件
+</code></pre>
+<p>构建完成后，按方案一的第 4-5 步安装生成的 <code>.vsix</code> 文件。</p>
+<blockquote class="alert alert-note"><p><strong>Note</strong></p>
+本扩展尚未上架 <a href="https://code.visualstudio.com/docs/configure/extensions/extension-marketplace#_find-and-install-an-extension">VS Code 市场</a>，需通过 <a href="#方案二从源码构建">源码构建</a> 或从 <a href="https://github.com/maboloshi/github-chinese/actions/workflows/build-vscode-extension">Actions</a> 下载 VSIX 安装。
+</blockquote>
+<h2 id="命令">命令</h2>
+<ul>
+<li><code>GitHub 中文化: 检查注入状态</code> — 查看 browser API 可用性、注入标签数与词库加载状态</li>
+<li><code>GitHub 中文化: 刷新集成浏览器注入</code> — 重新拉取词库/主脚本并重新注入所有已打开的集成浏览器标签</li>
+</ul>
+<h2 id="常见问题">常见问题</h2>
+<h3 id="为什么打开-github-页面没有汉化">为什么打开 GitHub 页面没有汉化？</h3>
+<p>请检查以下几点：</p>
+<ol>
+<li><strong>确认已安装依赖扩展</strong>：Integrated Browser Extensions 必须已安装并启用</li>
+<li><strong>确认启动参数正确</strong>：VS Code 必须带 <code>--enable-proposed-api boylett.integrated-browser-extensions</code> 参数启动</li>
+<li><strong>确认扩展已启用</strong>：在扩展面板中确认 <code>GitHub 中文化</code> 扩展已启用</li>
+<li><strong>刷新页面</strong>：在 VS Code 的集成浏览器中按 <code>Ctrl+R</code> 或 <code>F5</code> 刷新页面</li>
+<li><strong>重启 VS Code</strong>：尝试完全退出并重新启动 VS Code</li>
+</ol>
+<h2 id="调试">调试</h2>
+<p><a href="https://code.visualstudio.com/api/get-started/your-first-extension#debugging-the-extension">打开扩展开发宿主窗口</a>。</p>
+</main>
+<p class="footer">
+  本页面由 <a href="https://github.com/cdma2023/github-chinese">cdma2023/github-chinese</a>
+  自动构建 · 上游项目
+  <a href="https://github.com/maboloshi/github-chinese">maboloshi/github-chinese</a>
+  · GPL-3.0
+</p>
+</body>
+</html>

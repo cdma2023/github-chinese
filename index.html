@@ -1,0 +1,516 @@
+<!DOCTYPE html>
+<html lang="zh-CN">
+<head>
+<meta charset="utf-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>GitHub 中文化插件</title>
+<meta name="description" content="GitHub 界面中文化插件 - maboloshi/github-chinese 自托管镜像">
+<link rel="icon" href="https://github.githubassets.com/pinned-octocat.svg">
+<style>
+:root {
+  --fg: #1f2328; --bg: #ffffff; --muted: #59636e; --border: #d1d9e0;
+  --accent: #0969da; --code-bg: #f6f8fa; --quote-bg: #f6f8fa;
+  --note: #0969da; --warn: #9a6700; --tip: #1a7f37;
+  --note-bg: #ddf4ff; --warn-bg: #fff8c5; --tip-bg: #dafbe1;
+}
+@media (prefers-color-scheme: dark) {
+  :root {
+    --fg: #e6edf3; --bg: #0d1117; --muted: #9198a1; --border: #3d444d;
+    --accent: #4493f8; --code-bg: #151b23; --quote-bg: #151b23;
+    --note: #4493f8; --warn: #d29922; --tip: #3fb950;
+    --note-bg: #12283b; --warn-bg: #2e2400; --tip-bg: #0f2f1d;
+  }
+}
+* { box-sizing: border-box; }
+body {
+  margin: 0 auto; padding: 32px 20px 64px; max-width: 1012px;
+  font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", "Noto Sans",
+               "PingFang SC", "Microsoft YaHei", Helvetica, Arial, sans-serif;
+  font-size: 16px; line-height: 1.6; color: var(--fg); background: var(--bg);
+  -webkit-font-smoothing: antialiased;
+}
+h1, h2, h3, h4 { font-weight: 600; line-height: 1.25; margin: 24px 0 16px; }
+h1 { font-size: 2em; padding-bottom: .3em; border-bottom: 1px solid var(--border); }
+h2 { font-size: 1.5em; padding-bottom: .3em; border-bottom: 1px solid var(--border); }
+h3 { font-size: 1.25em; }
+a { color: var(--accent); text-decoration: none; }
+a:hover { text-decoration: underline; }
+img { max-width: 100%; vertical-align: middle; }
+code {
+  font-family: ui-monospace, SFMono-Regular, "SF Mono", Menlo, Consolas, monospace;
+  font-size: 85%; background: var(--code-bg); padding: .2em .4em;
+  border-radius: 6px;
+}
+pre {
+  background: var(--code-bg); padding: 16px; overflow: auto;
+  border-radius: 6px; line-height: 1.45;
+}
+pre code { background: none; padding: 0; font-size: 100%; }
+blockquote {
+  margin: 0 0 16px; padding: 0 1em; color: var(--muted);
+  border-left: .25em solid var(--border);
+}
+table { border-collapse: collapse; display: block; width: max-content;
+        max-width: 100%; overflow: auto; margin: 0 0 16px; }
+th, td { border: 1px solid var(--border); padding: 6px 13px; }
+th { background: var(--code-bg); font-weight: 600; }
+tr:nth-child(2n) { background: var(--quote-bg); }
+hr { height: 1px; border: 0; background: var(--border); margin: 24px 0; }
+details { margin: 12px 0; padding: 8px 12px; border: 1px solid var(--border);
+          border-radius: 6px; }
+summary { cursor: pointer; font-weight: 600; }
+kbd { font-family: ui-monospace, monospace; font-size: 85%;
+      background: var(--code-bg); border: 1px solid var(--border);
+      border-radius: 6px; padding: 2px 6px; }
+
+/* GitHub 风格提示框: > [!note] / [!warning] / [!tip] / [!important] */
+blockquote.alert { border-left: .25em solid var(--note); padding: 8px 16px;
+                   margin: 16px 0; border-radius: 6px;
+                   background: var(--note-bg); color: var(--fg); }
+blockquote.alert > p { margin: 4px 0; }
+blockquote.alert-warning { border-left-color: var(--warn); background: var(--warn-bg); }
+blockquote.alert-tip      { border-left-color: var(--tip);  background: var(--tip-bg); }
+blockquote.alert-important{ border-left-color: #8250df; background: var(--note-bg); }
+
+.footer { margin-top: 48px; padding-top: 16px; border-top: 1px solid var(--border);
+          font-size: 85%; color: var(--muted); }
+</style>
+</head>
+<body>
+<a id="readme-top"></a>
+<main class="markdown-body">
+<div align="center">
+<p><a name="readme-top"></a></p>
+<h1 id="github-中文化插件"><a href="https://github.com/maboloshi/github-chinese" title="GitHub 中文化插件">GitHub 中文化插件</a></h1>
+<blockquote>
+<p>让 GitHub 界面全面中文化 | 源自 <a href="https://github.com/52cik/github-hans">52cik/github-hans</a></p>
+</blockquote>
+<p><strong>简体中文</strong> · <a href="./README_zh-TW.html">繁體中文</a> · <a href="https://github.com/maboloshi/github-chinese/issues" title="议题">反馈问题</a></p>
+<!-- SHIELD GROUP -->
+<p><a href="https://github.com/maboloshi/github-chinese/stargazers" title="星标"><img alt="GitHub stars" src="https://img.shields.io/github/stars/maboloshi/github-chinese?style=flat-square&amp;logo=github&amp;label=Star" /></a>
+<a href="https://github.com/maboloshi/github-chinese/network" title="复刻"><img alt="GitHub forks" src="https://img.shields.io/github/forks/maboloshi/github-chinese?style=flat-square&amp;logo=github&amp;label=Fork" /></a>
+<a href="https://github.com/maboloshi/github-chinese/issues" title="议题"><img alt="GitHub issues" src="https://img.shields.io/github/issues/maboloshi/github-chinese?style=flat-square&amp;logo=github&amp;label=Issue" /></a>
+<a href="https://opensource.org/licenses/GPL-3.0" title="许可证"><img alt="license GPL-3.0" src="https://img.shields.io/github/license/maboloshi/github-chinese?style=flat-square&amp;logo=github&amp;label=License" /></a>
+<a href="https://greasyfork.org/scripts/435208" title="GreasyFork 源 - GitHub 中文化插件"><img alt="GreasyFork installs" src="https://img.shields.io/greasyfork/dt/435208?style=flat-square&amp;logo=GreasyFork&amp;label=GreasyFork%20Installs" /></a></p>
+<p><a href="https://hellogithub.com/repository/738d0abae49543f18d887a7e29ec9e90" target="_blank">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://api.hellogithub.com/v1/widgets/recommend.svg?rid=738d0abae49543f18d887a7e29ec9e90&claim_uid=zepvSg6Vwl4EqMr&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://api.hellogithub.com/v1/widgets/recommend.svg?rid=738d0abae49543f18d887a7e29ec9e90&claim_uid=zepvSg6Vwl4EqMr&theme=neutral" />
+    <img alt="Featured｜HelloGitHub" src="https://api.hellogithub.com/v1/widgets/recommend.svg?rid=738d0abae49543f18d887a7e29ec9e90&claim_uid=zepvSg6Vwl4EqMr&theme=neutral" style="width: 250px; height: 54px;" />
+  </picture>
+</a></p>
+</div>
+<blockquote class="alert alert-warning"><p><strong>Warning</strong></p>
+本项目从未发布至 GitCode，如您发现请截图并保留证据
+<p>[!note]
+🪞 <strong>这是镜像站点</strong>
+本页面为 <a href="https://github.com/maboloshi/github-chinese">maboloshi/github-chinese</a> 的自托管镜像，用于加速访问与备份。脚本的中文词库已改为从本站点加载，并通过 GitHub Actions 每周自动同步上游最新词库。
+原作者：<a href="https://github.com/maboloshi">沙漠之子</a>　·　许可证：GPL-3.0</p>
+</blockquote>
+<details>
+<summary><kbd>目录树</kbd></summary>
+<h4 id="toc">TOC</h4>
+<ul>
+<li><a href="#-功能特性">🌟 功能特性</a></li>
+<li><a href="#-兼容环境">🌐 兼容环境</a></li>
+<li><a href="#-安装指南">💻 安装指南</a><ul>
+<li><a href="#浏览器tampermonkey">浏览器（Tampermonkey）</a></li>
+<li><a href="#vs-code-市场扩展">VS Code 市场扩展</a></li>
+</ul>
+</li>
+<li><a href="#-本地调试">🔧 本地调试</a></li>
+<li><a href="#-更新日志">🔄 更新日志</a></li>
+<li><a href="#-待办事项">📌 待办事项</a></li>
+<li><a href="#-参与贡献">🤝 参与贡献</a></li>
+<li><a href="#-效果预览">🖼️ 效果预览</a></li>
+<li><a href="#-特别鸣谢">🙏 特别鸣谢</a></li>
+<li><a href="#-项目统计">📈 项目统计</a></li>
+<li><a href="#-欢迎打赏">🎁 欢迎打赏</a></li>
+</ul>
+</details>
+<h2 id="-功能特性">🌟 功能特性</h2>
+<ul>
+<li>[x] 全面中文化 GitHub 界面元素（菜单栏、标题、按钮等）</li>
+<li>[x] 智能正则匹配功能</li>
+<li>[x] 支持项目描述的人机翻译</li>
+<li>[x] 自动本地化时间元素</li>
+<li>[x] 持续更新词库</li>
+</ul>
+<h2 id="-兼容环境">🌐 兼容环境</h2>
+<table>
+<thead>
+<tr>
+<th style="text-align: center;">浏览器类型</th>
+<th style="text-align: center;">支持的脚本管理器</th>
+</tr>
+</thead>
+<tbody>
+<tr>
+<td style="text-align: center;">Chrome / Chromium 内核</td>
+<td style="text-align: center;"><a href="http://tampermonkey.net/" title="篡改猴">Tampermonkey</a>, <a href="https://violentmonkey.github.io/" title="暴力猴">Violentmonkey</a></td>
+</tr>
+<tr>
+<td style="text-align: center;">Safari（全平台）</td>
+<td style="text-align: center;"><a href="http://tampermonkey.net/" title="篡改猴">Tampermonkey</a>, <a href="https://macaque.app/" title="猕猴">Macaque</a>, <a href="https://apps.apple.com/cn/app/stay-for-safari-%E6%B5%8F%E8%A7%88%E5%99%A8%E4%BC%B4%E4%BE%A3/id1591620171" title="Stay">Stay</a></td>
+</tr>
+<tr>
+<td style="text-align: center;">Firefox / Gecko 内核</td>
+<td style="text-align: center;"><a href="http://tampermonkey.net/" title="篡改猴">Tampermonkey</a>, <a href="https://violentmonkey.github.io/" title="暴力猴">Violentmonkey</a></td>
+</tr>
+<tr>
+<td style="text-align: center;">Via（Android）</td>
+<td style="text-align: center;">内置管理器</td>
+</tr>
+<tr>
+<td style="text-align: center;">VS Code 集成浏览器</td>
+<td style="text-align: center;"></td>
+</tr>
+</tbody>
+</table>
+<h2 id="-安装指南">💻 安装指南</h2>
+<h3 id="浏览器tampermonkey">浏览器（Tampermonkey）</h3>
+<ol>
+<li>安装用户脚本管理器：<ul>
+<li>推荐：<a href="http://tampermonkey.net/" title="篡改猴">Tampermonkey</a></li>
+</ul>
+</li>
+<li><strong>基于 Chrome / Chromium 内核浏览器：</strong><ol>
+<li>务必开启 “扩展程序” 管理中的 <strong>“开发者模式”</strong><sup id="fnref:1"><a class="footnote-ref" href="#fn:1">1</a></sup></li>
+<li>务必开启 “扩展程序” 管理中脚本管理器扩展的 <strong>“允许运行用户脚本”</strong></li>
+<li>具体可参考 <a href="https://www.tampermonkey.net/faq.php#Q209">Tampermonkey 官方指引</a></li>
+</ol>
+</li>
+<li>选择安装源：<ul>
+<li><a href="https://github.com/maboloshi/github-chinese/raw/gh-pages/main.user.js" title="GitHub 中文化插件 - GitHub 源">GitHub 源【开发版】</a></li>
+<li><a href="https://mirror.nju.edu.cn/github-chinese/main(nju.edu).user.js" title="GitHub 中文化插件 - 南大镜像源">南大镜像源【开发版】</a></li>
+<li><a href="https://greasyfork.org/scripts/435208-github-%E4%B8%AD%E6%96%87%E5%8C%96%E6%8F%92%E4%BB%B6/code/GitHub%20%E4%B8%AD%E6%96%87%E5%8C%96%E6%8F%92%E4%BB%B6.user.js" title="GitHub 中文化插件 - GreasyFork 源">GreasyFork 源【稳定版】</a></li>
+</ul>
+</li>
+<li>刷新页面后，插件即可生效</li>
+<li>必要时，重启浏览器</li>
+</ol>
+<blockquote class="alert alert-note"><p><strong>Note</strong></p>
+<strong>版本说明</strong>：
+- 🚀 开发版：实时更新，每周五自动更新词库
+- 🛡️ 稳定版：每周一同步开发版词库，更稳定
+</blockquote>
+<h3 id="vs-code-集成浏览器">VS Code 集成浏览器</h3>
+<p>请参考<a href="vscode-extension/README.html">扩展的自述文件</a>。</p>
+<h2 id="-本地调试">🔧 本地调试</h2>
+<ol>
+<li>安装 <a href="http://tampermonkey.net/" title="篡改猴">Tampermonkey</a>，并启用 “允许访问文件网址”。</li>
+<li>下载词库文件到本地（如：<code>D:\github-chinese\locals.js</code>）</li>
+<li>在脚本管理器中修改引用路径：
+   ```js
+   // 原始路径
+   // @require https://raw.githubusercontent.com/...</li>
+</ol>
+<p>// 修改为
+   // @require file:///D:/github-chinese/locals.js
+   ```
+1. 刷新页面生效</p>
+<blockquote class="alert alert-important"><p><strong>Important</strong></p>
+<strong>若无效：</strong>
+1. 进入 <a href="http://tampermonkey.net/" title="篡改猴">Tampermonkey</a> 插件<code>设置页</code>
+1. 将 <code>通用 - 配置模式</code> 设置为<code>高级</code>，进入高级设置模式
+1. 找到 <code>安全 - 允许脚本访问本地文件</code> 并设置为 <code>外部(@require 和 @resource)</code>
+<p>[!TIP]
+💡 <strong>温馨提示：</strong> 您可以将词库文件拖拽至浏览器地址栏，复制路径直接使用。</p>
+</blockquote>
+<div align="right">
+<p><a href="#readme-top"><img alt="" src="https://img.shields.io/badge/-BACK_TO_TOP-151515?style=flat-square" /></a></p>
+</div>
+<h2 id="-更新日志">🔄 更新日志</h2>
+<h3 id="最新版本">最新版本</h3>
+<h4 id="v1944-2026-06-20">v1.9.4.4 (2026-06-20)</h4>
+<ol>
+<li>兼容修复<code>1.9.2.4</code>,<code>1.9.4.4</code>：
+   - 区分 React GlobalNav 与页面主体共享的 Primer 弹层，恢复下拉菜单即时、完整翻译。</li>
+</ol>
+<h4 id="v1943-2026-06-17">v1.9.4.3 (2026-06-17)</h4>
+<ol>
+<li>兼容修复<code>1.9.2.3</code>,<code>1.9.4.3</code>：
+   - 收窄 React 搜索模块忽略范围，恢复仓库议题页和搜索页主体区域翻译。</li>
+</ol>
+<h4 id="v1942-2026-06-17">v1.9.4.2 (2026-06-17)</h4>
+<ol>
+<li>兼容修复<code>1.9.2.2</code>,<code>1.9.4.2</code>：
+   - 在保持 React 头部搜索框稳定的前提下，恢复头部导航、菜单、搜索弹层和提示翻译。</li>
+</ol>
+<h4 id="v1941-2026-06-16">v1.9.4.1 (2026-06-16)</h4>
+<ol>
+<li>临时修复<code>1.9.2</code>,<code>1.9.4</code>：
+   - 关于 GitHub 引入 React 机制导致头部搜索框消失。副作用整个头部导航全部加入忽略规则，无法翻译。</li>
+</ol>
+<h4 id="v194-2026-05-17">v1.9.4 (2026-05-17)</h4>
+<ol>
+<li>代码重构：
+   - 全面结构化重组：抽离配置常量 <code>CONFIG</code>、状态管理器 <code>State</code>
+   - 引入 <code>safe()</code> 错误边界包裹关键函数，便于排错
+   - 函数拆分细化：<code>watchUpdate</code> → <code>setupMutationObserver</code> + <code>processMutations</code>，<code>transDesc</code> → <code>handleTransClick</code> + <code>requestRemoteTrans</code> + <code>showTransResult</code>
+   - <code>processMutations</code> 祖先去重：同一批 mutation 中后代节点不再重复遍历</li>
+<li>新增功能：
+   - 翻译结果 UI 暗色主题适配（CSS 变量 + <code>prefers-color-scheme</code> 媒体查询），使用 <code>GM_addStyle</code> 插入
+   - 未命中词条管理器 <code>MissedTermsManager</code>（记录、导出 JSON、清空、统计、菜单）
+   - 开发者模式（<code>CONFIG.DEV</code>）控制未命中词条菜单显隐
+   - Tampermonkey <code>onurlchange</code> 事件支持（<code>setupUrlChangeListener</code>）</li>
+<li>修复：
+   - 修复翻译 API 响应 XSS 漏洞：<code>innerHTML</code> 模板拼接改为 <code>textContent</code> 安全赋值（由 #692 报告）
+   - 修复 TreeWalker 过滤器在 <code>ignoreSelectors</code> 为空时抛出 <code>SyntaxError</code>
+   - 修复翻译按钮可能重复添加的问题（<code>nextSibling</code> 空值检查）
+   - 修复 <code>RELATIVE-TIME</code> shadowRoot 为 null 时的崩溃
+   - 修复从未识别页面离开后 <code>State.pageConfig</code> 未清空，导致旧配置残留的问题</li>
+<li>性能优化：减少无效迭代，消除不必要的 DOM 遍历</li>
+</ol>
+<h4 id="v193-2024-08-18">v1.9.3 (2024-08-18)</h4>
+<ol>
+<li>新增功能：通过设置中文环境，自动本地化时间元素，仅保留<code>on</code>开头的时间正则，并停用时间元素监视</li>
+<li>优化突变翻译处理：
+   - 引入<code>characterDataPage</code>规则，对特定页面启用<code>筛选字符数据</code>的变更
+   - 引入<code>ignoreMutationSelectorPage</code>规则，忽略特定突变元素</li>
+<li>合并<code>reIgnoreClass，reIgnoreItemprop，ignoreId，ignoreTag</code>为<code>ignoreSelectorPage</code>规则，处理全局及特定页面，忽略特定元素</li>
+<li>引入全局缓存模式，减少重复构建包括不限于基于<code>page</code>变化的忽略规则、正则规则数组等</li>
+<li>调整：更新讯飞听见翻译引擎v2.0</li>
+<li>优化：梳理、优化脚本</li>
+<li>调整：调整词库语言代码为<code>zh-CN</code>, 与环境语言设置一致</li>
+</ol>
+<details>
+<summary><kbd>查看更多历史版本</kbd></summary>
+<h4 id="v192-2024-06-14">v1.9.2 (2024-06-14)</h4>
+<ol>
+<li>适配<code>www.githubstatus.com</code></li>
+<li>适配<code>skills.github.com</code></li>
+</ol>
+<h4 id="v191-2024-05-23">v1.9.1 (2024-05-23)</h4>
+<ol>
+<li>更新<code>切换正则功能按钮</code></li>
+</ol>
+<h4 id="v190-2023-12-09">v1.9.0 (2023-12-09)</h4>
+<ol>
+<li>重新定义版本号规则, 如<code>1.9.0-2023-12-09</code>。
+   - <code>1.9.0</code>: 主版本号（由项目所有者更新）
+   - <code>2023-12-09</code>：<code>词库</code>发布版本号（由 GitHub Action 自动更新）</li>
+<li>加强: <a href="https://github.com/maboloshi/github-chinese/raw/gh-pages/main.user.js" title="GitHub 中文化插件 - GitHub 源">GitHub 源【开发版】</a>每周一凌晨自动更新<code>词库</code>发布版本号</li>
+<li>加强: <a href="https://greasyfork.org/scripts/435208-github-%E4%B8%AD%E6%96%87%E5%8C%96%E6%8F%92%E4%BB%B6/code/GitHub%20%E4%B8%AD%E6%96%87%E5%8C%96%E6%8F%92%E4%BB%B6.user.js" title="GitHub 中文化插件 - GreasyFork 源">GreasyFork 源【稳定版】</a>每周五凌晨自动更新<code>词库</code>发布版本号, 词库内容同上一次<a href="https://github.com/maboloshi/github-chinese/raw/gh-pages/main.user.js" title="GitHub 中文化插件 - GitHub 源">GitHub 源【开发版】</a></li>
+<li>加强：在 <code>README.md</code> 中自动更新贡献者头像</li>
+<li>更新: 忽略规则, 词条等</li>
+</ol>
+<h4 id="v185-2023-08-31">v1.8.5 (2023-08-31)</h4>
+<ol>
+<li>优化: <code>transDesc 函数</code>代码</li>
+<li>修复: 重复添加<code>translate-me</code>翻译按钮</li>
+<li>加强：<code>watchUpdate 函数</code>新增节点文本更新的情况</li>
+<li>调整: <code>transBySelector和transDesc函数</code>延迟执行时间</li>
+<li>更新: 忽略规则, 词条等</li>
+</ol>
+<h4 id="v184-2023-08-08">v1.8.4 (2023-08-08)</h4>
+<ol>
+<li>修复: <code>Itemprop</code>过滤规则, 依然使用正则方式</li>
+<li>修复: <code>tooltipped</code>样式提示, 依然使用正则方式</li>
+</ol>
+<h4 id="v183-2023-08-07">v1.8.3 (2023-08-07)</h4>
+<ol>
+<li>梳理、优化脚本</li>
+<li>更新: 忽略规则, 大量词条等</li>
+</ol>
+<h4 id="v182-2023-05-15">v1.8.2 (2023-05-15)</h4>
+<ol>
+<li><code>greasyfork 托管</code>源切换到<code>按页面精细化词条模式</code></li>
+<li>调整词库格式</li>
+<li>功能加强: 优化<code>元素筛选器</code>翻译逻辑</li>
+<li>更新: 忽略规则, 大量词条等</li>
+</ol>
+<h4 id="v181-2023-01-22">v1.8.1 (2023-01-22)</h4>
+<ol>
+<li>修复: #8 与 dark reader 扩展发生冲突，导致时间显示出现问题</li>
+<li><code>GitHub</code>源开始切换到<code>按页面精细化词条模式(开发版)</code>, 词库未完全迁移适配</li>
+<li>停止<code>greasyfork</code>源词库文件的同步更新</li>
+</ol>
+<h4 id="v180-2023-01-18">v1.8.0 (2023-01-18)</h4>
+<ol>
+<li>删除: <code>TURBO-FRAME</code>框架处理代码. Github 已调整新动态加载模式, 直接检测<code>url</code>的变化就能获取对应的<code>page</code>信息</li>
+<li>新增: 支持时间元素的<code>Shadow DOM</code>翻译, 并监听变化</li>
+<li>新增: 启用并更新<code>时间元素翻译</code>专项正则词条</li>
+<li>新增: 仅当<code>page</code>有效才翻译页面</li>
+<li>修复: 原<code>简介翻译</code>引擎<code>GitHub中文社区</code>失效, 改为<code>讯飞</code>引擎(测试)</li>
+<li>修复: 追加公共正则重复迭代的问题</li>
+<li>修复: 正则标记变量<code>RegExp</code>与构造函数<code>new RegExp</code>冲突</li>
+<li>更新: 忽略规则, 词条等</li>
+</ol>
+<p>预告, 下次将细化<code>page</code>匹配规则, 导致词库文件结构大调整, 词库文件会适当变大, 页面正则更精细效率会提升</p>
+<h4 id="v179-2022-07-17">v1.7.9 (2022-07-17)</h4>
+<p>GitHub 的 ajax 载入方式逐步从 <a href="https://github.com/defunkt/jquery-pjax">defunkt/jquery-pjax</a> 切换到 <a href="turbo.hotwired.dev">hotwired/turbo</a>, 导致已有的动态监测方式逐步失效</p>
+<p>目前, 通过以下修复:</p>
+<ol>
+<li>新增 <code>BODY</code> 元素新增监视</li>
+<li>解析 <code>TURBO-FRAME</code> 框架, 获取对应的 <code>page</code></li>
+<li>修复 github 新动态加载模式, 导致<code>翻译描述</code>返回值无法插入</li>
+<li>修复 github 新动态加载模式, 导致<code>chrome</code>浏览器自带翻译功能卡死页面</li>
+</ol>
+<p>其他更新:</p>
+<ol>
+<li>修复<code>rePagePath</code>,<code>rePagePathRepo</code>,<code>rePagePathOrg</code>匹配规则，限制路径匹配层次，排除干扰</li>
+<li>直接使用网页URL<code>document.URL</code>变化触发<code>标题翻译</code>和<code>JS 筛选器</code>翻译</li>
+<li>修复<code>关闭正则</code>无法生效, 需要刷新页面才生效</li>
+<li>日常更新词库和忽略规则</li>
+<li>更新<code>JS 筛选器</code>规则</li>
+</ol>
+<h4 id="v178-2022-06-29">v1.7.8 (2022-06-29)</h4>
+<ol>
+<li>紧急修复: GitHub 变更了<code>document.body</code>和<code>title</code>更新机制, 导致原有的<code>监测更新</code>规则部分失效, 目前使用<code>document.documentElement</code>监视整个页面 DOM 的变更</li>
+<li>跳过<code>&lt;HEAD&gt;</code>标签</li>
+<li><code>标题翻译</code>和<code>JS 筛选器</code>翻译, 依据 URL变化更新</li>
+</ol>
+<h4 id="v177-2022-06-26">v1.7.7 (2022-06-26)</h4>
+<ol>
+<li>新增<code>时间元素翻译</code>功能</li>
+<li>重写<code>页面标题翻译</code>函数</li>
+<li>梳理<code>遍历节点</code>函数逻辑</li>
+<li>优化<code>transPage</code>函数，默认翻译公共部分</li>
+<li>调整<code>getPage</code>函数, 使<code>ClassName匹配规则</code>优先</li>
+<li>优化<code>translate</code>函数, 跳过<code>不存在英文字母和符号,.</code>, 保留首尾空白部分等</li>
+<li>部分函数重命名，使用<code>es6</code>新语法</li>
+<li>日常更新词库和忽略规则，修复一个<code>JS 选择器规则</code></li>
+</ol>
+<h4 id="v176-2022-05-12">v1.7.6 (2022-05-12)</h4>
+<ol>
+<li>日常更新词库和忽略规则</li>
+<li>添加手动开启/禁用正则翻译，添加切换菜单</li>
+<li>优化翻译文本函数：避免已翻译词汇二次匹配，提高效率；局部翻译优先于全局</li>
+</ol>
+</details>
+<div align="right">
+<p><a href="#readme-top"><img alt="" src="https://img.shields.io/badge/-BACK_TO_TOP-151515?style=flat-square" /></a></p>
+</div>
+<h2 id="-待办事项">📌 待办事项</h2>
+<ol>
+<li>添加 GitHub 专用名词解释</li>
+<li>整理 <a href="https://git-scm.com/">Git</a> &amp; <a href="https://github.com/">GitHub</a> 学习资料</li>
+<li>完善文档翻译，需大家 PR 共同翻译</li>
+</ol>
+<h2 id="-参与贡献">🤝 参与贡献</h2>
+<p>欢迎通过以下方式参与贡献：</p>
+<ol>
+<li>完善词库翻译（编辑 <code>locals.js</code>）</li>
+<li>提交议题报告，参与话题讨论</li>
+<li>改进代码逻辑</li>
+</ol>
+<p><a href="https://github.com/maboloshi/github-chinese/pulls"><img alt="" src="https://img.shields.io/badge/🤯_pr_welcome-%E2%86%92-ffcb47?labelColor=black&amp;style=for-the-badge" title="欢迎提交 PR" /></a></p>
+<h3 id="翻译参考资源">翻译参考资源:</h3>
+<ol>
+<li><a href="https://git-scm.com/book/zh/v2">Pro Git 第二版 简体中文</a></li>
+<li><a href="https://github.com/progit/progit2-zh/blob/master/TRANSLATION_NOTES.asc">Pro Git: 翻译约定</a></li>
+<li><a href="https://github.com/git/git/blob/master/po/zh_CN.po">Git 官方软件包的简体中文翻译</a></li>
+<li><a href="https://docs.github.com/cn/get-started/quickstart/github-glossary">GitHub 词汇表官方译本</a></li>
+<li><strong><a href="https://developer.mozilla.org/zh-CN/docs/Web/CSS/Reference/Selectors">CSS 选择器</a> 用于编写忽略规则</strong></li>
+</ol>
+<blockquote>
+<p><a href="https://github.com/maboloshi/github-chinese/discussions/57">查看详细贡献指南</a></p>
+</blockquote>
+<h2 id="-效果预览">🖼️ 效果预览</h2>
+<p><picture>
+    <source media="(prefers-color-scheme: light)" srcset="preview/img1.png"/>
+    <source media="(prefers-color-scheme: dark)" srcset="preview/img3.png"/>
+    <img src="preview/img1.png" width="75%" />
+  </picture>
+  <picture>
+    <source media="(prefers-color-scheme: light)" srcset="preview/img2.png"/>
+    <source media="(prefers-color-scheme: dark)" srcset="preview/img4.png"/>
+    <img src="preview/img2.png" width="75%" />
+  </picture></p>
+<h2 id="-特别鸣谢">🙏 特别鸣谢</h2>
+<h3 id="核心团队">核心团队</h3>
+<ul>
+<li><a href="https://github.com/maboloshi">maboloshi</a> - 项目作者</li>
+<li><a href="https://github.com/wyc-26">wyc-26</a>，<a href="https://github.com/TC999">陈生杂物房</a> - 项目协作者</li>
+<li><a href="https://github.com/52cik">52cik</a> - 项目原作者</li>
+</ul>
+<h3 id="贡献者墙">贡献者墙</h3>
+<p>一如既往，感谢我们出色的贡献者❤️！</p>
+<!--AUTO_GENERATED_PLEASE_DONT_DELETE_IT-->
+<p><a href="https://github.com/maboloshi" title="沙漠之子"><img src="https://avatars.githubusercontent.com/u/7850715?v=4" width="42;" alt="沙漠之子"/></a>
+<a href="https://github.com/52cik" title="楼教主"><img src="https://avatars.githubusercontent.com/u/5033310?v=4" width="42;" alt="楼教主"/></a>
+<a href="https://github.com/TC999" title="陈生杂物房"><img src="https://avatars.githubusercontent.com/u/88823709?v=4" width="42;" alt="陈生杂物房"/></a>
+<a href="https://github.com/wyc-26" title="wyc-26"><img src="https://avatars.githubusercontent.com/u/154735436?v=4" width="42;" alt="wyc-26"/></a>
+<a href="https://github.com/qznfbnj" title="其智乃反不能及"><img src="https://avatars.githubusercontent.com/u/100760086?v=4" width="42;" alt="其智乃反不能及"/></a>
+<a href="https://github.com/PtJade-Ceramic" title="PtJade Ceramic"><img src="https://avatars.githubusercontent.com/u/185668489?v=4" width="42;" alt="PtJade Ceramic"/></a>
+<a href="https://github.com/tangyuan0821" title="Tang Yuan"><img src="https://avatars.githubusercontent.com/u/195516213?v=4" width="42;" alt="Tang Yuan"/></a>
+<a href="https://github.com/LuYifei2011" title="Lu Yifei"><img src="https://avatars.githubusercontent.com/u/118034848?v=4" width="42;" alt="Lu Yifei"/></a>
+<a href="https://github.com/mvanhorn" title="Matt Van Horn"><img src="https://avatars.githubusercontent.com/u/455140?v=4" width="42;" alt="Matt Van Horn"/></a>
+<a href="https://github.com/MrBaoboer" title="Mr.Baoboer"><img src="https://avatars.githubusercontent.com/u/272576744?v=4" width="42;" alt="Mr.Baoboer"/></a>
+<a href="https://github.com/pylover7" title="大叶子"><img src="https://avatars.githubusercontent.com/u/56282729?v=4" width="42;" alt="大叶子"/></a>
+<a href="https://github.com/cat-kun" title="cat-kun"><img src="https://avatars.githubusercontent.com/u/8529528?v=4" width="42;" alt="cat-kun"/></a>
+<a href="https://github.com/ChinaGodMan" title="人民的勤务员"><img src="https://avatars.githubusercontent.com/u/96548841?v=4" width="42;" alt="人民的勤务员"/></a>
+<a href="https://github.com/th-dd" title="叹号大帝"><img src="https://avatars.githubusercontent.com/u/162813557?v=4" width="42;" alt="叹号大帝"/></a>
+<a href="https://github.com/pooneyy" title="poney"><img src="https://avatars.githubusercontent.com/u/85266337?v=4" width="42;" alt="poney"/></a>
+<a href="https://github.com/pecasha" title="Pecasha"><img src="https://avatars.githubusercontent.com/u/9607128?v=4" width="42;" alt="Pecasha"/></a>
+<a href="https://github.com/Kisechan" title="Kise Platinyl"><img src="https://avatars.githubusercontent.com/u/162338950?v=4" width="42;" alt="Kise Platinyl"/></a>
+<a href="https://github.com/wang93wei" title="AlanWang"><img src="https://avatars.githubusercontent.com/u/6371053?v=4" width="42;" alt="AlanWang"/></a>
+<a href="https://github.com/Iamliuxiaozhen" title="Oliver Lin"><img src="https://avatars.githubusercontent.com/u/149680880?v=4" width="42;" alt="Oliver Lin"/></a>
+<a href="https://github.com/sebastionoss" title="Sebastion OSS"><img src="https://avatars.githubusercontent.com/u/262984339?v=4" width="42;" alt="Sebastion OSS"/></a>
+<a href="https://github.com/heicks" title="create new ██████╗  ██╔══██╗ ██████╔╝ ██╔══██╗ ██████╔╝ ╚═════╝  　　██╗ 　  ██╗ 　　██║ 　  ██║ 　　██║  　 ██║ 　　██║  　 ██║ 　　╚█████╔╝  　　╚═════╝  ███████╗ ██╔════╝　 ██║████═╗　 ██║　   ██　║ ╚██████╔╝　 　╚══════╝"><img src="https://avatars.githubusercontent.com/u/12287943?v=4" width="42;" alt="create new ██████╗  ██╔══██╗ ██████╔╝ ██╔══██╗ ██████╔╝ ╚═════╝  　　██╗ 　  ██╗ 　　██║ 　  ██║ 　　██║  　 ██║ 　　██║  　 ██║ 　　╚█████╔╝  　　╚═════╝  ███████╗ ██╔════╝　 ██║████═╗　 ██║　   ██　║ ╚██████╔╝　 　╚══════╝"/></a>
+<a href="https://github.com/daydaygo" title="dayday"><img src="https://avatars.githubusercontent.com/u/3986303?v=4" width="42;" alt="dayday"/></a>
+<a href="https://github.com/pangshitong" title="pangshitong"><img src="https://avatars.githubusercontent.com/u/41714457?v=4" width="42;" alt="pangshitong"/></a>
+<a href="https://github.com/saime428" title="saime428"><img src="https://avatars.githubusercontent.com/u/51110572?v=4" width="42;" alt="saime428"/></a>
+<a href="https://github.com/wang4yu6peng13" title="wang4yu6peng13"><img src="https://avatars.githubusercontent.com/u/10207042?v=4" width="42;" alt="wang4yu6peng13"/></a>
+<a href="https://github.com/wmwlwmwl" title="wmwlwmwl"><img src="https://avatars.githubusercontent.com/u/168271477?v=4" width="42;" alt="wmwlwmwl"/></a>
+<a href="https://github.com/xuexb" title="前端小武"><img src="https://avatars.githubusercontent.com/u/3872051?v=4" width="42;" alt="前端小武"/></a>
+<a href="https://github.com/xuezhaju" title="学渣驹"><img src="https://avatars.githubusercontent.com/u/175468713?v=4" width="42;" alt="学渣驹"/></a>
+<a href="https://github.com/3DMXM" title="小莫"><img src="https://avatars.githubusercontent.com/u/28587093?v=4" width="42;" alt="小莫"/></a>
+<a href="https://github.com/YiShengJunn" title="益生君"><img src="https://avatars.githubusercontent.com/u/134821571?v=4" width="42;" alt="益生君"/></a>
+<a href="https://github.com/yrljroli" title="苓𥤚"><img src="https://avatars.githubusercontent.com/u/169890386?v=4" width="42;" alt="苓𥤚"/></a>
+<a href="https://github.com/TNTXZ" title="TNTXZ"><img src="https://avatars.githubusercontent.com/u/119731745?v=4" width="42;" alt="TNTXZ"/></a>
+<a href="https://github.com/shuwn" title="Shuwn Hsu"><img src="https://avatars.githubusercontent.com/u/20023822?v=4" width="42;" alt="Shuwn Hsu"/></a>
+<a href="https://github.com/NyA1K0" title="NyA!K0"><img src="https://avatars.githubusercontent.com/u/177237971?v=4" width="42;" alt="NyA!K0"/></a>
+<a href="https://github.com/MaydayV" title="MaydayV"><img src="https://avatars.githubusercontent.com/u/61279703?v=4" width="42;" alt="MaydayV"/></a>
+<a href="https://github.com/KS-OTO" title="KS-OTO"><img src="https://avatars.githubusercontent.com/u/6616413?v=4" width="42;" alt="KS-OTO"/></a>
+<a href="https://github.com/swsoyee" title="InfinityLoop"><img src="https://avatars.githubusercontent.com/u/20528423?v=4" width="42;" alt="InfinityLoop"/></a>
+<a href="https://github.com/ImgBotApp" title="Imgbot"><img src="https://avatars.githubusercontent.com/u/31427850?v=4" width="42;" alt="Imgbot"/></a>
+<a href="https://github.com/HeavenlessLing" title="Heavenless"><img src="https://avatars.githubusercontent.com/u/238226870?v=4" width="42;" alt="Heavenless"/></a>
+<a href="https://github.com/BluewhaleYF" title="Flint Scophire"><img src="https://avatars.githubusercontent.com/u/206069864?v=4" width="42;" alt="Flint Scophire"/></a>
+<a href="https://github.com/neveler" title="neveler"><img src="https://avatars.githubusercontent.com/u/55753029?v=4" width="42;" alt="neveler"/></a>
+<a href="https://github.com/Aethersailor" title="Aethersailor"><img src="https://avatars.githubusercontent.com/u/22260104?v=4" width="42;" alt="Aethersailor"/></a></p>
+<!--AUTO_GENERATED_PLEASE_DONT_DELETE_IT-END-->
+
+<blockquote>
+<p>贡献者列表，由 <a href="https://github.com/maboloshi/github-chinese/blob/gh-pages/.github/workflows/update_contributors_images.yml">GitHub Action</a> 自动生成</p>
+</blockquote>
+<div align="right">
+<p><a href="#readme-top"><img alt="" src="https://img.shields.io/badge/-BACK_TO_TOP-151515?style=flat-square" /></a></p>
+</div>
+<h2 id="-项目统计">📈 项目统计</h2>
+<p><a href="https://star-history.dera.page/#maboloshi/github-chinese&Timeline">
+  <picture>
+    <source media="(prefers-color-scheme: dark)" srcset="https://star-history.dera.page/svg?repos=maboloshi/github-chinese&type=Timeline&theme=dark" />
+    <source media="(prefers-color-scheme: light)" srcset="https://star-history.dera.page/svg?repos=maboloshi/github-chinese&type=Timeline" />
+    <img alt="Star History Chart" src="https://star-history.dera.page/svg?repos=maboloshi/github-chinese&type=Timeline" width="75%" />
+  </picture>
+</a></p>
+<p><img alt="Alt" src="https://repobeats.axiom.co/api/embed/ae4c378f0e6ec317654ec5c4e8b01218c734cd53.svg" title="Repobeats analytics image" /></p>
+<div align="right">
+<p><a href="#readme-top"><img alt="" src="https://img.shields.io/badge/-BACK_TO_TOP-151515?style=flat-square" /></a></p>
+</div>
+<h2 id="-欢迎打赏">🎁 欢迎打赏</h2>
+<p><a href="https://github.com/maboloshi/maboloshi/issues/1">赞赏列表</a>
+|                                        微信赞赏                                        |                                       支付宝赞赏                                       |
+| :--------------------------------------------------------------------------------: | :--------------------------------------------------------------------------------: |
+| <img src="https://cdn.jsdelivr.net/gh/maboloshi/maboloshi/img/wechat.png?raw=true" alt="WeChat QRcode" width=200> <br><small>☕喝点咖啡继续干☕</small> | <img src="https://cdn.jsdelivr.net/gh/maboloshi/maboloshi/img/alipay-1.jpg?raw=true" alt="AliPay QRcode" width=200> <br><small>🌶️来包辣条吧~🍪</small> |</p>
+<!-- LINK GROUP -->
+
+<div class="footnote">
+<hr />
+<ol>
+<li id="fn:1">
+<p><a href="https://github.com/maboloshi/github-chinese/issues/234">Chrome 切换到 Manifest V3后，使用问题</a>&#160;<a class="footnote-backref" href="#fnref:1" title="Jump back to footnote 1 in the text">&#8617;</a></p>
+</li>
+</ol>
+</div>
+</main>
+<p class="footer">
+  本页面由 <a href="https://github.com/cdma2023/github-chinese">cdma2023/github-chinese</a>
+  自动构建 · 上游项目
+  <a href="https://github.com/maboloshi/github-chinese">maboloshi/github-chinese</a>
+  · GPL-3.0
+</p>
+</body>
+</html>

@@ -31,6 +31,19 @@ jobs:
       - name: Checkout
         uses: actions/checkout@v4
 
+      - name: Setup Python
+        uses: actions/setup-python@v5
+        with:
+          python-version: '3.12'
+
+      - name: Install build deps
+        run: pip install --quiet --disable-pip-version-check markdown
+
+      # Pages 在 Actions 部署模式下不跑 Jekyll，README.md 不会自动变成 index.html，
+      # 所以这里自己把 Markdown 渲染成静态页面。
+      - name: Build static pages
+        run: python .github/scripts/build_pages.py README.md README_zh-TW.md vscode-extension/README.md
+
       - name: Setup Pages
         uses: actions/configure-pages@v4
 
