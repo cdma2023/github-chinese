@@ -11,7 +11,7 @@
 // @match        https://skills.github.com/*
 // @match        https://gist.github.com/*
 // @match        https://www.githubstatus.com/*
-// @require      https://cdma2023.github.io/github-chinese/locals%28greasyfork%29.js?v1.9.2.4-2026-08-23
+// @require      https://cdma2023.github.io/github-chinese/locals%28greasyfork%29.js?v2026-09-01
 // @run-at       document-end
 // @grant        GM_xmlhttpRequest
 // @grant        GM_getValue
