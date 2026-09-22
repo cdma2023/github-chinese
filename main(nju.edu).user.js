@@ -12,7 +12,7 @@
 // @match        https://gist.github.com/*
 // @match        https://education.github.com/*
 // @match        https://www.githubstatus.com/*
-// @require      https://cdma2023.github.io/github-chinese/locals.js?v=2026-09-15
+// @require      https://cdma2023.github.io/github-chinese/locals.js?v=2026-09-22
 // @run-at       document-start
 // @grant        GM_addStyle
 // @grant        GM_xmlhttpRequest
